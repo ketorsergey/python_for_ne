@@ -26,3 +26,15 @@
 """
 
 ip = "192.168.3.1"
+oct0 = int(ip.split(".")[0])
+oct1 = int(ip.split(".")[1])
+oct2 = int(ip.split(".")[2])
+oct3 = int(ip.split(".")[3])
+
+
+ip_template = '''
+{0:<8}  {1:<8}  {2:<8}  {3:<8}
+{0:08b}  {1:08b}  {2:08b}  {3:08b}
+'''
+
+print(ip_template.format(oct0, oct1, oct2, oct3))

@@ -28,3 +28,13 @@ Next-Hop              {}
 Last update           {}
 Outbound Interface    {}
 """
+
+prefix = ospf_route.split()[0]
+ad = ospf_route.split()[1].strip("[]")
+nh = ospf_route.split()[3][0:9]
+lu = ospf_route.split()[4][0:5]
+ou_intf = ospf_route.split()[5]
+
+print(template.format(prefix, ad, nh, lu, ou_intf))
+
+

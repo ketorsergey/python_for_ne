@@ -22,3 +22,19 @@
 
 command1 = "switchport trunk allowed vlan 1,2,3,5,8"
 command2 = "switchport trunk allowed vlan 1,3,8,9"
+
+vlan_list_1 = command1.split()[-1].split(",")
+vlan_list_2 = command2.split()[-1].split(",")
+
+set1 = set(vlan_list_1)
+set2 = set(vlan_list_2)
+unique_list = list(set2 & set1)
+
+unique_list_int = [int(value) for value in unique_list]
+unique_list_int.sort()
+
+result = []
+for item in unique_list_int:
+    result.append(str(item))
+
+print(result)
