@@ -38,3 +38,14 @@ ip_template = '''
 '''
 
 print(ip_template.format(oct0, oct1, oct2, oct3))
+
+
+
+def configure_intf(intf_name, ip_add, mask):
+
+    template = """
+    interface {}
+    ip address {} {}
+    """
+    config = template.format(intf_name, ip_add, mask)
+    return(config)

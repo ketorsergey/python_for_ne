@@ -50,3 +50,11 @@ london_co = {
         "routing": True,
     },
 }
+
+hostname = input("Введите имя устройства: ")
+
+params = str(list(london_co[hostname].keys()))
+
+param = input("Введите имя параметра {}: ".format(params.replace("'", "").strip('()').replace("[", "(").replace("]", ")")))
+
+print(london_co[hostname][param])
