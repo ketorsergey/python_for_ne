@@ -49,3 +49,53 @@ bin_ip = "00001010000000010000000111000011"
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+
+address = input("Введите сеть x.x.x.x/y :")
+
+ip = address.split("/")[0].split(".")
+mask = address.split("/")[1]
+
+ip_bin =  "{:>08b}{:>08b}{:>08b}{:>08b}".format(int(ip[0]), int(ip[1]), int(ip[2]), int(ip[3]))
+mask_bin =   int(mask) * "1" + (32 - int(mask))* "0"
+
+netw_bin = ip_bin[0: int(mask)] + "0" * (32 - int(mask))
+netw_bin1 = netw_bin[0:8]
+netw_bin2 = netw_bin[8:16]
+netw_bin3 = netw_bin[16:24]
+netw_bin4 = netw_bin[24:32]
+
+netw1 = int(netw_bin1, 2)
+netw2 = int(netw_bin2, 2)
+netw3 = int(netw_bin3, 2)
+netw4 = int(netw_bin4, 2)
+
+
+ip_template = """
+Network:
+{:<8}  {:<8}  {:<8}  {:<8}
+{:<08}  {:<08}  {:<08}  {:<08}
+"""
+
+print(ip_template.format(netw1, netw2, netw3, netw4, netw_bin1, netw_bin2, netw_bin3, netw_bin4))
+
+mask_template = """
+Mask:
+/{}
+{:<8}  {:<8}  {:<8}  {:<8}
+{:08b}  {:08b}  {:08b}  {:08b}
+"""
+
+mask_str = int(mask) * "1" + (32 - int(mask))* "0"
+
+mask_oct1 = mask_str[0:8]
+mask_oct2 = mask_str[8:16]
+mask_oct3 = mask_str[16:24]
+mask_oct4 = mask_str[24:]
+
+int_mask_oct1 = int(mask_oct1, 2)
+int_mask_oct2 = int(mask_oct2, 2)
+int_mask_oct3 = int(mask_oct3, 2)
+int_mask_oct4 = int(mask_oct4, 2)
+
+print(mask_template.format(mask, int_mask_oct1, int_mask_oct2, int_mask_oct3, int_mask_oct4, int_mask_oct1, int_mask_oct2, int_mask_oct3, int_mask_oct4))
+

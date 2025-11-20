@@ -30,3 +30,36 @@ Out[1]: '11111111111111111111111111110000'
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+address = input("Введите сеть x.x.x.x/y :")
+
+ip = address.split("/")[0].split(".")
+mask = address.split("/")[1]
+
+ip_template = """
+Network:
+{:<8}  {:<8}  {:<8}  {:<8}
+{:08b}  {:08b}  {:08b}  {:08b}
+"""
+
+print(ip_template.format(ip[0], ip[1], ip[2], ip[3], int(ip[0]), int(ip[1]), int(ip[2]), int(ip[3])))
+
+mask_template = """
+Mask:
+/{}
+{:<8}  {:<8}  {:<8}  {:<8}
+{:08b}  {:08b}  {:08b}  {:08b}
+"""
+
+mask_str = int(mask) * "1" + (32 - int(mask))* "0"
+
+mask_oct1 = mask_str[0:8]
+mask_oct2 = mask_str[8:16]
+mask_oct3 = mask_str[16:24]
+mask_oct4 = mask_str[24:]
+
+int_mask_oct1 = int(mask_oct1, 2)
+int_mask_oct2 = int(mask_oct2, 2)
+int_mask_oct3 = int(mask_oct3, 2)
+int_mask_oct4 = int(mask_oct4, 2)
+
+print(mask_template.format(mask, int_mask_oct1, int_mask_oct2, int_mask_oct3, int_mask_oct4, int_mask_oct1, int_mask_oct2, int_mask_oct3, int_mask_oct4))
