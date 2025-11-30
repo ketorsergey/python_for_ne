@@ -52,12 +52,6 @@ interface FastEthernet0/7
 а access закомментировать.
 """
 
-access_template = [
-    "switchport mode access",
-    "switchport access vlan",
-    "spanning-tree portfast",
-    "spanning-tree bpduguard enable",
-]
 
 trunk_template = [
     "switchport trunk encapsulation dot1q",
@@ -65,7 +59,7 @@ trunk_template = [
     "switchport trunk allowed vlan",
 ]
 
-access = {"0/12": "10", "0/14": "11", "0/16": "17", "0/17": "150"}
+
 trunk = {
     "0/1": ["add", "10", "20"],
     "0/2": ["only", "11", "30"],
@@ -74,11 +68,16 @@ trunk = {
     "0/7": ["only", "30"],
 }
 
-# for intf, vlan in access.items():
-#     print("interface FastEthernet" + intf)
-#     for command in access_template:
-#         if command.endswith("access vlan"):
-#             print(f" {command} {vlan}")
-#         else:
-#             print(f" {command}")
+             
+for intf, vlans in trunk.items():
+    print("interface FastEthernet" + intf)
+    for command in trunk_template:
+        if command.endswith("allowed vlan") and "only" in vlans[0]:
+            print(" {} {}".format(command, str(vlans).strip('[]')[8:]).replace("', '", ",").replace("'", ""))
+        elif command.endswith("allowed vlan") and "add" in vlans[0]:
+            print(" {} add {}".format(command, str(vlans).strip('[]')[7:]).replace("', '", ",").replace("'", ""))
+        elif command.endswith("allowed vlan") and "del" in vlans[0]:
+            print(" {} remove {}".format(command, str(vlans).strip('[]')[7:]).replace("', '", ",").replace("'", ""))
+        else:
+            print(f" {command}")
 
