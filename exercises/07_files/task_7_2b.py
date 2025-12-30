@@ -16,4 +16,19 @@
 
 """
 
+from sys import argv
+
 ignore = ["duplex", "alias", "configuration"]
+
+file_r = open(argv[1], "r")
+file_w = open(argv[2], "w")
+
+
+for line in file_r:
+    if "!" in line or ignore[0] in line or ignore[1] in line or ignore[2] in line:
+        continue
+    else:
+        file_w.write(line)
+        
+file_r.close()
+file_w.close()
