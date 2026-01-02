@@ -40,3 +40,26 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+
+
+f = open('CAM_table.txt')
+
+f_list = []
+
+for line in f:
+    if len(line.split()) == 4 and line.split()[0].isdigit():
+        f_list.append(line.split())
+    else:
+        continue
+
+i = 0
+for elems in f_list:
+    f_list[i][0] = int(f_list[i][0])
+    i +=1
+
+f_list.sort()
+
+for line in f_list:
+    print("{:<9}{:<20}{:<4}".format(line[0], line[1], line[3]))
+
+f.close()
