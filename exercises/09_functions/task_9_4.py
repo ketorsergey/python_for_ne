@@ -64,3 +64,34 @@ def ignore_command(command, ignore):
         if word in command:
             ignore_status = True
     return ignore_status
+    
+    
+def convert_config_to_dict(config_filename):
+    
+    f = open(config_filename)
+    cfg_list = []
+    
+    for line in f:
+        if "!" not in line and ignore_command(line, ignore) == False:
+            cfg_list.append(line.strip("\n"))
+        else:
+            continue
+    cfg_list.pop(0) 
+    
+    cfg_dict = {}
+    cfg_key = ""
+    cfg_value = []
+    
+    for i in range(0, len(cfg_list)):
+        if not cfg_list[i].startswith(" "):
+            cfg_dict[cfg_key] = cfg_value
+            cfg_value = []
+            cfg_key = cfg_list[i]
+        else:
+            cfg_value.append(cfg_list[i][1:]) 
+                
+    cfg_dict[cfg_list[(len(cfg_list) - 1)]] = []
+    del cfg_dict['']
+    f.close()
+    
+    return cfg_dict
