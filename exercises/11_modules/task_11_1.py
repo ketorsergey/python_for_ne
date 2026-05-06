@@ -43,8 +43,81 @@ def parse_cdp_neighbors(command_output):
     и с файлами и с выводом с оборудования.
     Плюс учимся работать с таким выводом.
     """
+    command_output_list = command_output.rstrip().split('\n')
+    
+    data_begin = 0
+    hostname = ""
+    
+    for position, string in enumerate(command_output_list,0):
+        if string.startswith('Device'):
+            data_begin = position + 1
+        elif ">" in string:
+            hostname = string.split(">")[0]
+        else:
+            continue
+            
+    data_list = command_output_list[data_begin:]
+    cleaned_data_list = []
+    
+    for position, string in enumerate(data_list,0):
+        list_from_str = string.split("  ")
+#        print(list_from_str )
+        temp_list = []
+        for elem in list_from_str:
+            if elem == "":
+                continue
+            elif len(elem)> 7:
+                temp_list.append(elem.strip().replace(' ', '')[elem.strip().replace(' ', '').find("Eth"):])
+            elif "th" in elem:
+                temp_list.append(elem.strip().replace(' ', ''))
+            elif "R S I" in elem:
+                continue
+            else:
+                temp_list.append(elem.strip())
+                
+        cleaned_data_list.append(temp_list)
+    
+    for data in cleaned_data_list:
+        data.pop(2)
+    for data in cleaned_data_list:
+        data.pop(2)
+    for data in cleaned_data_list:
+        data.append(hostname)
+    for data in cleaned_data_list:
+        data[-1], data[0] = data[0], data[-1]
+    for data in cleaned_data_list:
+        data[-1], data[2] = data[2], data[-1]
+        
+#    print(cleaned_data_list)
+    
+    d_keys = []
+    d_values = []
+        
+    for elem_list in cleaned_data_list:
+        keys = []
+        values = []
+        keys.append(elem_list[0])
+        keys.append(elem_list[1])
+        values.append(elem_list[2])
+        values.append(elem_list[3])
+        d_keys.append(tuple(keys))
+        d_values.append(tuple(values))
 
-
+#    print(d_keys)
+#    print(d_values)
+    
+    result = dict(zip(d_keys, d_values))
+    
+    return result
+    
 if __name__ == "__main__":
-    with open("sh_cdp_n_sw1.txt") as f:
+    with open("sh_cdp_n_r2.txt") as f:
         print(parse_cdp_neighbors(f.read()))
+        
+infiles = [
+    "sh_cdp_n_sw1.txt",
+    "sh_cdp_n_r1.txt",
+    "sh_cdp_n_r2.txt",
+    "sh_cdp_n_r3.txt",
+]
+
